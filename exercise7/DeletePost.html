@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>Morrell Exercise7</title>
+
+		<body style='text-align:center; background:black; color:orange'>
+			<h1>EECS448 Lab5 Exercise 7 - Delete your post please dear God!<br><br></h1>
+		  <form action="DeletePost.php" method="post" autocomplete="off">
+        <?php
+
+        $mysqli = new mysqli("mysql.eecs.ku.edu", "blknm4598", "Nao3Uath", "blknm4598");
+
+        /* check connection */
+        if ($mysqli->connect_errno) {
+            printf("Connect failed: %s\n", $mysqli->connect_error);
+            exit();
+        }
+
+          $query = "SELECT * FROM Posts";
+          echo '<table style="width:100%" border="6"><tr><th>Post ID</th><th>Author</th><th>Content</th>';
+          if ($post_m = $mysqli->query($query))
+          {
+
+            echo "<th>Delete any posts... Choose wisely</th></tr>";
+
+            while ($row = $post_m->fetch_assoc())
+            {
+
+              $author_id = $row["author_id"];
+              $content = $row["content"];
+              $post_id = $row["post_id"];
+
+              echo "<tr><td>" . $post_id . "</td><td>" . $author_id . "</td>";
+              echo "<td>" . $content . "</td>";
+              echo '<td><input type="checkbox" name ="post_table" value="' . $post_id . '">&nbsp;</td></tr>';
+            }
+            echo "</table>";
+            $post_m->free();
+          }
+
+        /* close connection */
+        $mysqli->close();
+        ?>
+        <br>
+        <input type="submit">
+    </form>
+  </body>
+</html>
